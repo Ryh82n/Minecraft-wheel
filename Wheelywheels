@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minecraft Challenge Spinner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      color: #62c370;
+    }
+
+    #wheel {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 10px solid #62c370;
+      margin: 30px auto;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 10px #000;
+      transition: transform 5s ease-out;
+    }
+
+    .segment {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      background: #333;
+      color: white;
+      transform-origin: 100% 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-right: 20px;
+      font-size: 14px;
+    }
+
+    #spinBtn {
+      padding: 10px 30px;
+      font-size: 18px;
+      background: #62c370;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 30px;
+    }
+
+    #pointer {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 30px solid red;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Minecraft Challenge Spinner</h1>
+  <div id="pointer"></div>
+  <div id="wheel"></div>
+  <button id="spinBtn">Spin the Wheel</button>
+
+  <!-- Sound -->
+  <audio id="saadSound" src="saad-noob.mp3" preload="auto"></audio>
+
+  <script>
+    const challenges = [
+      "Play with no armor",
+      "Only use wooden tools",
+      "Survive only on bread",
+      "Don't jump for 10 minutes",
+      "Play in F5 mode only",
+      "Mine with a wooden pickaxe",
+      "Play with inverted mouse",
+      "Don't kill mobs",
+      "Play with 2 hearts max",
+      "No crafting allowed"
+    ];
+
+    const wheel = document.getElementById("wheel");
+    const spinBtn = document.getElementById("spinBtn");
+    const saadSound = document.getElementById("saadSound");
+
+    let angle = 360 / challenges.length;
+
+    // Build the wheel segments
+    challenges.forEach((challenge, index) => {
+      const segment = document.createElement("div");
+      segment.className = "segment";
+      segment.innerText = challenge;
+
+      const rotation = angle * index;
+      segment.style.transform = `rotate(${rotation}deg) translate(-100%)`;
+      segment.style.background = index % 2 === 0 ? "#62c370" : "#4a8b61";
+
+      wheel.appendChild(segment);
+    });
+
+    spinBtn.addEventListener("click", () => {
+      const randomIndex = Math.floor(Math.random() * challenges.length);
+      const rotateDeg = 360 * 5 + (360 - randomIndex * angle - angle / 2);
+
+      wheel.style.transform = `rotate(${rotateDeg}deg)`;
+
+      // Play sound after spin completes
+      setTimeout(() => {
+        saadSound.play();
+        alert("Challenge: " + challenges[randomIndex]);
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
